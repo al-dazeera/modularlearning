@@ -1,0 +1,187 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://Scripts/PaperGetter.gd" type="Script" id=1]
+[ext_resource path="res://Scripts/Game.gd" type="Script" id=2]
+[ext_resource path="res://Fonts/JAi_____.TTF" type="DynamicFontData" id=3]
+[ext_resource path="res://Assets/vignette.png" type="Texture" id=4]
+[ext_resource path="res://shader/vignette.shader" type="Shader" id=5]
+[ext_resource path="res://Scenes/shake.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scripts/comenter.gd" type="Script" id=7]
+[ext_resource path="res://icon.png" type="Texture" id=8]
+[ext_resource path="res://Scripts/stress.gd" type="Script" id=9]
+[ext_resource path="res://new_styleboxflat.tres" type="StyleBox" id=10]
+[ext_resource path="res://hover_stylebox.tres" type="StyleBox" id=11]
+[ext_resource path="res://pressed_styleboxflat.tres" type="StyleBox" id=12]
+
+[sub_resource type="ShaderMaterial" id=1]
+shader = ExtResource( 5 )
+shader_param/alpha = -1.0
+shader_param/color = Vector3( 0, 0, 0 )
+shader_param/vignette = ExtResource( 4 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.647059, 0.635294, 0.623529, 1 )
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color( 0.52549, 0.517647, 0.517647, 1 )
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+anti_aliasing = false
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 100, 245 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 32
+font_data = ExtResource( 3 )
+
+[sub_resource type="CircleShape2D" id=5]
+radius = 2.52616
+
+[sub_resource type="DynamicFont" id=6]
+size = 100
+outline_size = 2
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=7]
+font_data = ExtResource( 3 )
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": "fix the checkng the paper results thing"
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource( 1 )
+use_parent_material = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 1.58667
+margin_bottom = 1.58667
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Node2D" type="Node2D" parent="CanvasLayer"]
+
+[node name="comenter" type="Sprite" parent="CanvasLayer/Node2D"]
+position = Vector2( -100, 200 )
+scale = Vector2( 0.2, 0.2 )
+texture = ExtResource( 8 )
+script = ExtResource( 7 )
+
+[node name="Tween" type="Tween" parent="CanvasLayer/Node2D/comenter"]
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.380392 )
+margin_left = 905.0
+margin_top = 40.0
+margin_right = 1055.0
+margin_bottom = 540.0
+rect_min_size = Vector2( 150, 500 )
+mouse_filter = 2
+custom_styles/panel = SubResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Submission" type="Area2D" parent="Panel"]
+position = Vector2( 105, 250 )
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Panel/Submission"]
+position = Vector2( 7.21997, -1.80499 )
+shape = SubResource( 3 )
+
+[node name="Label" type="Label" parent="Panel"]
+margin_left = 65.2632
+margin_top = 380.526
+margin_right = 280.263
+margin_bottom = 412.526
+rect_min_size = Vector2( 42, 14 )
+rect_rotation = 270.0
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.862745, 0.831373, 0.831373, 1 )
+text = "SUBMIT PAPER"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Node" type="Node" parent="."]
+
+[node name="PaperGetter" type="Area2D" parent="."]
+visible = false
+position = Vector2( 347.107, 29.1392 )
+collision_mask = 2
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PaperGetter"]
+shape = SubResource( 5 )
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = 15.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 514, 298 )
+current = true
+smoothing_enabled = true
+smoothing_speed = 3.0
+
+[node name="shake" parent="Camera2D" instance=ExtResource( 6 )]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[node name="Label" type="Label" parent="."]
+margin_left = 265.0
+margin_top = -300.0
+margin_right = 765.0
+margin_bottom = -200.0
+rect_min_size = Vector2( 500, 100 )
+rect_pivot_offset = Vector2( 250, 50 )
+custom_fonts/font = SubResource( 6 )
+custom_colors/font_outline_modulate = Color( 0, 0, 0, 1 )
+text = "STRESSED"
+script = ExtResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tween" type="Tween" parent="Label"]
+
+[node name="Button" type="Button" parent="Label"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = 50.0
+margin_right = 50.0
+margin_bottom = 100.0
+rect_min_size = Vector2( 100, 50 )
+custom_styles/hover = ExtResource( 11 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/normal = ExtResource( 10 )
+custom_fonts/font = SubResource( 7 )
+text = "Retry"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="body_entered" from="Panel/Submission" to="." method="_on_Submission_body_entered"]
+[connection signal="body_exited" from="Panel/Submission" to="." method="_on_Submission_body_exited"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_AudioStreamPlayer2D_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="pressed" from="Label/Button" to="Label" method="_on_Button_pressed"]
